@@ -6,7 +6,7 @@ last_names = ['Анин(а)','Ванин(а)','Юлин(а)','Димин(а)','�
 subjects = ['Русский','Математика','Физика']
 lst_mark = [2,3,4,5]
 balls = []
-end_dct = {}
+
 new_names = []
 
 def marks():
@@ -14,30 +14,37 @@ def marks():
     lst = []
     for i in range(time):
         mark = random.choice(lst_mark)
+        
         lst.append(mark)
     return lst
 
+def creat_dct():
+    end_dct = {}
+    for i in range(2):
+        name = f'{random.choice(names)} {random.choice(last_names)}'
+        new_names.append(name)
+        diary = {}
 
-for i in range(2):
-    name = f'{random.choice(names)} {random.choice(last_names)}'
-    new_names.append(name)
-    diary = {}
+        for j in subjects:
+            marks_name = marks()
+            diary[j] = marks_name
+        end_dct[name] = diary
+    return end_dct
+
+
+def med_ball(end_dct):
+    for i in new_names:
+        for j in subjects:
+            med_sum = sum(end_dct[i][j])
+            med_len = len(end_dct[i][j])
+            med_ball_ = f'{med_sum / med_len:.2f}'
+            end_dct[i][f'Средний балл {j}'] = med_ball_
+    return end_dct
     
-    
-    for j in subjects:
-        ner = marks()
-        
-        diary[j] = ner
-        ball = sum(ner) / len(ner)
-        diary[f'Баллы {j}'] = ball
-        
-        
-    end_dct[name] = diary
-    # print(diary)
+end_dct = creat_dct()
+end_dct = med_ball(end_dct)
 
-    
-
-
+        
 n = 0
 h = 0
 for i in end_dct:
@@ -47,9 +54,10 @@ for i in end_dct:
 
     print()
     for j in subjects:
-        print(f'{j}: {end_dct[new_names[n]][j]}     Средний балл: {end_dct[new_names[n]][f'Баллы {j}']:.2f}')
+        print(f'{j}: {end_dct[new_names[n]][j]}')
+        print(f'Cредний балл: {end_dct[i][f'Средний балл {j}']}')
         h += 1
     print()
 
-    print('*'*20)
+    print('*'*40)
     n += 1
